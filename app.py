@@ -12,6 +12,9 @@ app = Flask(__name__)
 CORS(app)
 cache = Cache(app)
 
+app.config.update(dict(
+  PREFERRED_URL_SCHEME='https'
+))
 
 # TODO
 # reverse the order of photos for user stream, latest first
