@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flickr IIIF Proxy: {{ user.username.__content }}</title>
+</head>
+<body>
+
+<h2>{{ user.username.__content }}</h2>
+
+<p>
+    <a href="{{ url_for('get_public_photos', user_id=user.id, _external=True) }}">IIIF Manifest</a> |
+    <a href="https://uv-v4.netlify.app/#?manifest={{ url_for('get_public_photos', user_id=user.id, _external=True) }}">In UV</a>
+</p>
+
+</body>
+</html>
