@@ -4,6 +4,7 @@ from flask import Flask, render_template, url_for, jsonify, redirect, Response
 from flask_cors import CORS
 from flask_caching import Cache
 
+import secrets
 import settings
 from settings import REST_TEMPLATE
 
@@ -264,6 +265,13 @@ def get_licenses():
 @app.route('/canvas/<photo_id>')
 def canvas(photo_id):
     flask.abort(404)
+
+
+@app.route('/test')
+def test():
+    if secrets.FLICKR_API_KEY == "NO_KEY_SET":
+        return "Hasn't picked up env var"
+    return str(len(secrets.FLICKR_API_KEY))
 
 
 if __name__ == '__main__':
