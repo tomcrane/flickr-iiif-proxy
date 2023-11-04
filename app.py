@@ -9,13 +9,12 @@ import secrets
 import settings
 from settings import REST_TEMPLATE
 
+from werkzeug.middleware.proxy_fix import ProxyFix
+
 app = Flask(__name__)
 CORS(app)
 cache = Cache(app)
-
-app.config.update(dict(
-  PREFERRED_URL_SCHEME='https'
-))
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 # TODO
 # reverse the order of photos for user stream, latest first
