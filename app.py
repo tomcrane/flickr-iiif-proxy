@@ -1,6 +1,7 @@
 import flask
 import requests
-from flask import Flask, render_template, url_for, jsonify, redirect, Response
+import json
+from flask import Flask, request, render_template, url_for, jsonify, redirect, Response
 from flask_cors import CORS
 from flask_caching import Cache
 
@@ -274,7 +275,7 @@ def canvas(photo_id):
 def test():
     if secrets.FLICKR_API_KEY == "NO_KEY_SET":
         return "Hasn't picked up env var"
-    return str(len(secrets.FLICKR_API_KEY))
+    return json.dumps(request.headers.to_wsgi_list())
 
 
 if __name__ == '__main__':
