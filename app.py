@@ -58,7 +58,8 @@ def make_canvases(photos):
             "type": "Canvas",
             "width": size_info["largest"]["width"],
             "height": size_info["largest"]["height"],
-            "label": {"en": [photo["description"]["_content"]]},
+            "label": {"en": [photo["title"]]},
+            "summary": {"en": [photo["description"]["_content"]]},
             "items": [
                 {
                     "id": f"{canvas_id}/annopage",
@@ -131,6 +132,16 @@ def get_sizes_from_photo(photo):
     size_info["largest"] = max(size_info["all"].values(), key=lambda x: x["width"])
     return size_info
 
+@app.route('/albums/<album_id>')
+def get_album(album_id):
+    photos = get_api_object("flickr.photosets.getPhotos", photoset_id=album_id, extras=settings.PHOTO_EXTRAS)
+    data = photos["photoset"]
+    canvases = make_canvases(data["photo"])
+    label = data['title']
+    description = f"Album from {data['ownername']}"
+    manifest_id = url_for("get_album", album_id=album_id,_external=True)
+    manifest = make_manifest(manifest_id, canvases, label=label, description=description)
+    return jsonify(manifest)
 
 @app.route('/photos/<user_id>')
 def get_public_photos(user_id):
